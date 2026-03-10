@@ -18,14 +18,18 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Rua (plano cinza)
+    // Luz ambiente
+    const light = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(light);
+
+    // Rua principal
     const roadGeometry = new THREE.PlaneGeometry(20, 100);
     const roadMaterial = new THREE.MeshBasicMaterial({color: 0x333333});
     const road = new THREE.Mesh(roadGeometry, roadMaterial);
     road.rotation.x = -Math.PI/2;
     scene.add(road);
 
-    // Bordas da pista (brancas)
+    // Bordas da pista
     const borderMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
     const leftBorder = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1, 100), borderMaterial);
     leftBorder.position.set(-10, 0.5, 0);
@@ -35,38 +39,25 @@
     rightBorder.position.set(10, 0.5, 0);
     scene.add(rightBorder);
 
-    // Ônibus (paralelepípedo vermelho)
+    // Ônibus
     const busGeometry = new THREE.BoxGeometry(2, 2, 6);
     const busMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
     const bus = new THREE.Mesh(busGeometry, busMaterial);
     bus.position.y = 1;
     scene.add(bus);
 
+    // Mapa simples (quarteirões ao lado da rua)
+    const blockMaterial = new THREE.MeshBasicMaterial({color: 0x228B22}); // verde = quarteirão
+    for (let i = -2; i <= 2; i++) {
+      const block = new THREE.Mesh(new THREE.BoxGeometry(8, 1, 8), blockMaterial);
+      block.position.set(-15, 0.5, i * 20);
+      scene.add(block);
+
+      const block2 = new THREE.Mesh(new THREE.BoxGeometry(8, 1, 8), blockMaterial);
+      block2.position.set(15, 0.5, i * 20);
+      scene.add(block2);
+    }
+
     // Posição inicial da câmera
     camera.position.z = 20;
-    camera.position.y = 5;
-
-    // Controles de teclado
-    const keys = {};
-    window.addEventListener("keydown", (e) => { keys[e.key] = true; });
-    window.addEventListener("keyup", (e) => { keys[e.key] = false; });
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      // Movimento com setas
-      if (keys["ArrowUp"]) bus.position.z -= 0.1;     // frente
-      if (keys["ArrowDown"]) bus.position.z += 0.1;   // trás
-      if (keys["ArrowLeft"]) bus.position.x -= 0.1;   // esquerda
-      if (keys["ArrowRight"]) bus.position.x += 0.1;  // direita
-
-      // Limites da pista
-      if (bus.position.x < -9) bus.position.x = -9;
-      if (bus.position.x > 9) bus.position.x = 9;
-
-      renderer.render(scene, camera);
-    }
-    animate();
-  </script>
-</body>
-</html>
+    camera
