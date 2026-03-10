@@ -6,11 +6,11 @@ Simulador 3D simples de direção pelas ruas de João Pessoa e Cabedelo, com ôn
 - Engine: Godot 4 (sem Unity/Blender)
 - Linguagem: GDScript
 - Mapas: OpenStreetMap simplificado
+- Versão Web: Three.js (para rodar no navegador)
 
 ## Como jogar
-1. Clone este repositório
-2. Abra no Godot 4
-3. Execute a cena `scenes/joao_pessoa.tscn`
 
-## Objetivo
-Dirigir pelas ruas respeitando o trânsito e interagir com ônibus locais
+### Versão Godot
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/ilka/jogo-dirigir-jp-cabedelo-3d.git
