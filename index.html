@@ -32,13 +32,24 @@
     bus.position.y = 1;
     scene.add(bus);
 
+    // Posição inicial da câmera
     camera.position.z = 20;
     camera.position.y = 5;
 
-    // Loop de animação
+    // Controles de teclado
+    const keys = {};
+    window.addEventListener("keydown", (e) => { keys[e.key] = true; });
+    window.addEventListener("keyup", (e) => { keys[e.key] = false; });
+
     function animate() {
       requestAnimationFrame(animate);
-      bus.position.z -= 0.05; // ônibus andando
+
+      // Movimento com setas
+      if (keys["ArrowUp"]) bus.position.z -= 0.1;     // frente
+      if (keys["ArrowDown"]) bus.position.z += 0.1;   // trás
+      if (keys["ArrowLeft"]) bus.position.x -= 0.1;   // esquerda
+      if (keys["ArrowRight"]) bus.position.x += 0.1;  // direita
+
       renderer.render(scene, camera);
     }
     animate();
