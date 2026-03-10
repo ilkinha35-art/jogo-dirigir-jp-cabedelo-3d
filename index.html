@@ -25,6 +25,16 @@
     road.rotation.x = -Math.PI/2;
     scene.add(road);
 
+    // Bordas da pista (brancas)
+    const borderMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    const leftBorder = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1, 100), borderMaterial);
+    leftBorder.position.set(-10, 0.5, 0);
+    scene.add(leftBorder);
+
+    const rightBorder = new THREE.Mesh(new THREE.BoxGeometry(0.5, 1, 100), borderMaterial);
+    rightBorder.position.set(10, 0.5, 0);
+    scene.add(rightBorder);
+
     // Ônibus (paralelepípedo vermelho)
     const busGeometry = new THREE.BoxGeometry(2, 2, 6);
     const busMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
@@ -49,6 +59,10 @@
       if (keys["ArrowDown"]) bus.position.z += 0.1;   // trás
       if (keys["ArrowLeft"]) bus.position.x -= 0.1;   // esquerda
       if (keys["ArrowRight"]) bus.position.x += 0.1;  // direita
+
+      // Limites da pista
+      if (bus.position.x < -9) bus.position.x = -9;
+      if (bus.position.x > 9) bus.position.x = 9;
 
       renderer.render(scene, camera);
     }
