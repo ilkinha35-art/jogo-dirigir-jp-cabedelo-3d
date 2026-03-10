@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo de Dirigir JP & Cabedelo</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    // Cena e câmera
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Rua (plano cinza)
+    const roadGeometry = new THREE.PlaneGeometry(20, 100);
+    const roadMaterial = new THREE.MeshBasicMaterial({color: 0x333333});
+    const road = new THREE.Mesh(roadGeometry, roadMaterial);
+    road.rotation.x = -Math.PI/2;
+    scene.add(road);
+
+    // Ônibus (paralelepípedo vermelho)
+    const busGeometry = new THREE.BoxGeometry(2, 2, 6);
+    const busMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+    const bus = new THREE.Mesh(busGeometry, busMaterial);
+    bus.position.y = 1;
+    scene.add(bus);
+
+    camera.position.z = 20;
+    camera.position.y = 5;
+
+    // Loop de animação
+    function animate() {
+      requestAnimationFrame(animate);
+      bus.position.z -= 0.05; // ônibus andando
+      renderer.render(scene, camera);
+    }
+    animate();
+  </script>
+</body>
+</html>
